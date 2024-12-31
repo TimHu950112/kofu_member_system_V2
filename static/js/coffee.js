@@ -85,27 +85,20 @@ document.getElementById("submit_button").addEventListener("click", function () {
             contentType: 'application/json',
             success: function (response) {
                 console.log('【SYSTEM】 ' + response.message);
+            },
+        });
+        $.ajax({
+            url: '/linebot-push?phone=' + coffeeData.phone + '&function=' + coffeeData.function + '&item=' + coffeeData.item + '&number=' + coffeeData.number,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (response) {
+                console.log('【SYSTEM】 ' + response.message);
                 if (response.message == 'updated') {
                     alert('更新成功');
                 }
                 else if (response.message == 'added') {
                     alert('加入成功');
                 }
-                $.ajax({
-                    url: '/linebot-push?phone=' + coffeeData.phone + '&function=' + coffeeData.function + '&item=' + coffeeData.item + '&number=' + coffeeData.number,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    success: function (response) {
-                        console.log('【SYSTEM】 ' + response.message);
-                        if (response.message == 'updated') {
-                            alert('更新成功');
-                        }
-                        else if (response.message == 'added') {
-                            alert('加入成功');
-                        }
-                        window.location.reload();
-                    },
-                });
                 window.location.reload();
             },
         });
