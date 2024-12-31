@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     $('#add_customer_phone').on('input', function () {
         var input = $(this).val();
-        if (input !== '' && input.length >= 8) {
+        if (input.length == 10 || input.length == 8 ) {
             $.ajax({
                 url: '/api/customer?phone=' + input,
                 type: 'GET',
@@ -82,7 +82,7 @@ $(document).ready(function () {
             alert('請輸入完整資料');
             console.log('【SYSTEM】 customerData:', customerData);
         }
-        else if (customerData.phone.length < 8) {
+        else if (customerData.phone.length != 8 && customerData.phone.length != 10 ) {
             $('#phone_area').empty();
             $('#phone_area').append(`
                 <div class="form-floating mb-1 is-invalid">
