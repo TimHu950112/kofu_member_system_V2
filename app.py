@@ -163,11 +163,24 @@ def linebot_callback():
 
     return 'OK'
 
+@app.route("/linebot-push", methods=['GET'])
+def linebot_push():
+    try:
+        user_id=coffee.find_one({'phone':request.args.get("phone")})['line_id']
+        try:
+            message = FlexSendMessage(alt_text="這是 Flex Message", contents=json.loads(push_flex_message(request.args.get("function"),request.args.get("item"),request.args.get("number"))))
+            line_bot_api.push_message(user_id, message)
+            return 'success', 200
+        except Exception as e:
+            return f"Error sending bubble message: {e}" , 400
+    except:
+        return 'no_line_id', 200
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # 從 func_linebot.py 獲取回覆訊息的 JSON 結構
-    response_json = generate_message_template(event.message.text)
+    response_json = generate_message_template(event.message.text,event.source.user_id)
     response = json.loads(response_json)
 
     # 判斷回傳的訊息類型並回覆
@@ -189,6 +202,8 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text="發生錯誤：無法識別的訊息格式")
         )
-        
+
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5500, host="0.0.0.0")

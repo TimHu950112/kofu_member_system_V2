@@ -12,12 +12,12 @@ $(document).ready(function () {
                         $('#customer_result').empty();
                         $('#customer_result').append('<h5>無結果</h5>');
                     }
-                    for (var i = 0; i < response.length; i++) {
+                    for (var i = 0; i < 3; i++) {
                         permanent_status = 'ㄧ般會員';
                         if (response[i].permanent_status == true) {
                             permanent_status = '永久會員';
                         }
-                        if (parseInt(response[i].active_year) == parseInt(new Date().getFullYear())) {
+                        if (parseInt(response[i].active_year) == parseInt(new Date().getFullYear()) || response[i].permanent_status == true) {
                             $('#customer_result').append(`
                     <div class="shadow pt-2 p-2 mt-2 mb-4 d-flex justify-content-between align-items-center position-relative z-0"
                         style = "border-radius: 1.2rem;" >
@@ -43,7 +43,7 @@ $(document).ready(function () {
                     <div class="alert alert-warning d-flex align-items-center mt-2" role="alert">
                         <ion-icon name = "warning-outline" class= "me-2" style = "font-size:25px" ></ion-icon>
                             <div>
-                                連線錯誤，請檢查網路狀態
+                                連線錯誤，請檢查網路或登入狀態
                             </div>
                     </div > `);
                 }
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     if (response.length == 1) {
                         console.log("【SYSTEM】 only one result:", response);
                         $('#add_customer_name').val(response[0].name);
-                        alert('舊會員 ' + response[0].name);
+                        alert('已經是會員');
                     }
                 }
             });

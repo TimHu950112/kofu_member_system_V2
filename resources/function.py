@@ -34,7 +34,7 @@ class CustomerResource(Resource):
         permanent_status = data.get('permanent_status')
         result = self.customer.find_one({'phone':phone})
         if result != None:
-            self.customer.update({'phone':phone},{'$set':{'active_year':datetime.now(pytz.timezone("Asia/Taipei")).year,'permanent_status':permanent_status}})
+            self.customer.update_one({'phone':phone},{'$set':{'active_year':datetime.now(pytz.timezone("Asia/Taipei")).year,'permanent_status':permanent_status}})
             return {'message': 'updated'}, 200
         else:
             self.customer.insert_one({'name':name,'phone':phone,'permanent_status':permanent_status,'active_year':datetime.now(pytz.timezone("Asia/Taipei")).year})
@@ -47,15 +47,41 @@ class CoffeeResource(Resource):
 
     @login_required
     def get(self):
-        phone= request.args.get('phone')
-        result=list(self.coffee.find({'phone':phone}))
+        data = request.args.get('phone')
+        phone = data
+        result = []
+        for i in self.coffee.find({'phone':{'$regex':phone}}):
+            result.append({'phone':i['phone'],'left':i['left']})
         return result, 200
 
 
     @login_required
     def post(self):
-        pass
-
+        data = request.get_json()
+        phone = data.get('phone')
+        function = data.get('function')
+        item = int(data.get('item'))
+        number = int(data.get('number'))
+        result = self.coffee.find_one({'phone':phone})
+        if result != None and len(result)!=0:
+            if function == 'add_coffee':
+                self.coffee.update_one({'phone':phone},{'$set':{'left.'+str(item):result['left'][str(item)]+number}})
+            elif function == 'take_away':
+                self.coffee.update_one({'phone':phone},{'$set':{'left.'+str(item):result['left'][str(item)]-number}})
+            else:
+                return {'message':'function error'}, 400
+            return {'message':'updated'}, 200
+        else:
+            if function == 'add_coffee':
+                if item == 70:
+                    self.coffee.insert_one({'phone':phone,'left':{str(item):number,'80':0}})
+                elif item == 80:
+                    self.coffee.insert_one({'phone':phone,'left':{'70':0,str(item):number}})
+                else:
+                    return {'message':'item error'}, 400
+                return {'message':'added'}, 200
+            else:
+                return {'message':'function error'}, 400
 # 資料庫架構
 # {
 #     'phone':'',

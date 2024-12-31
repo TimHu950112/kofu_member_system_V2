@@ -4,17 +4,52 @@
 <section class="section fw-bold pt-3 px-lg-5 px-4  mx-0 overflow-y-scroll" id="track" style="max-height: 100vh;">
     <div class="d-flex justify-content-between">
         <h2 class="m-3 fw-bolder">寄杯</h2>
-        <ion-icon class="m-3" name="calendar-number-outline" style="font-size:35px"></ion-icon>
+        <!-- <ion-icon class="mt-2" name="add-outline" style="font-size:35px" data-bs-target="#exampleModalToggle"
+            data-bs-toggle="modal"></ion-icon> -->
     </div>
-    <div class="form-floating mb-3 ">
-        <input type="email" class="form-control shadow" id="floatingInput" placeholder="name@example.com"
-            style="border-radius: 1.2rem;">
-        <label for=" floatingInput" class="d-inline-flex justify-content-center align-items-center"
-            style="font-size: 12px;"><ion-icon name="search-outline" style="font-size: 20px;"
-                class="mx-2"></ion-icon><span></span>
-            搜尋事件</span></label>
+    <select id="function_select" class="form-select shadow mb-3 fw-bold text-center"
+        style="border-radius: 1.2rem;min-height:58px;font-size: 13px;" aria-label="Default select example">
+        <option selected>
+            請選擇寄杯或取杯
+        </option>
+        <option value="add_coffee">寄杯</option>
+        <option value="take_away">取杯</option>
+    </select>
+    <div id="phone_area">
+        <div class="form-floating mb-3 ">
+            <input type="text" class="form-control shadow" id="add_coffee_phone" placeholder="name@example.com"
+                style="border-radius: 1.2rem;">
+            <label for=" floatingInput" class="d-inline-flex justify-content-center align-items-center"
+                style="font-size: 12px;"><ion-icon name="call-outline" style="font-size: 20px;"
+                    class="mx-2"></ion-icon><span></span>
+                電話號碼</span></label>
+        </div>
     </div>
-    <div class="p-1">
+    <div id="predict_area"></div>
+    <div id="item_area">
+        <select class="form-select shadow mb-3 fw-bold text-center" id="item_select"
+            style="border-radius: 1.2rem;min-height:58px;font-size: 13px;" aria-label="Default select example" disabled>
+            <option value="" selected>
+                請先選擇功能
+            </option>
+        </select>
+    </div>
+    <div id="number_area">
+        <div class="form-floating mb-3 ">
+            <input type="text" class="form-control shadow" id="add_coffee_number" placeholder="name@example.com"
+                style="border-radius: 1.2rem;" disabled>
+            <label for=" floatingInput" class="d-inline-flex justify-content-center align-items-center"
+                style="font-size: 12px;"><ion-icon name="cafe-outline" style="font-size: 20px;"
+                    class="mx-2"></ion-icon><span></span>
+                請先選擇功能</span></label>
+        </div>
+    </div>
+    <div class="row m-0 p-0" id="submit_button">
+        <div class="btn btn-primary d-inline-flex justify-content-center align-items-center"
+            style="border-radius: 1.2rem;min-height:58px;font-size: 13px;">確認送出</div>
+    </div>
+
+    <!-- <div class="p-1">
         <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
         <label class="btn btn-outline-secondary d-inline-flex justify-content-center align-items-center" for="btncheck1"
             style="font-size:15px;height: 30px;background-color:rgba(242, 242, 242, 0.735);border:0px;border-radius:1.5rem;font-size:12px"><ion-icon
@@ -29,8 +64,8 @@
         <label class="btn btn-outline-secondary d-inline-flex justify-content-center align-items-center" for="btncheck3"
             style="font-size:15px;height: 30px;background-color:rgba(242, 242, 242, 0.735);border:0px;border-radius:1.5rem;font-size:12px"><ion-icon
                 name="checkmark-circle-outline" class="me-1"></ion-icon>已完成</label>
-    </div>
-    <div class="d-flex mb-2">
+    </div> -->
+    <!-- <div class="d-flex mb-2">
         <div class="shadow pt-2 p-2 mt-2 w-75" style="border-radius: 1.2rem;opacity: 0.3;">
             <div class="shadow p-3 mt-2 mb-2 d-flex align-items-center justify-content-start"
                 style="border-radius: 1.2rem;">
@@ -87,27 +122,10 @@
             </div>
         </div>
         <h5 id="tomorrow" class="w-25 my-auto fw-bolder text-center">ERROR</h5>
-    </div>
-
+    </div> -->
 
 </section>
 {%endblock content%}
 {%block script%}
-<script>
-    let yesterday = new Date().getDate() - 1;
-    let today = new Date().getDate();
-    let tomorrow = new Date().getDate() + 1;
-
-    function plus_zero(input_day) {
-        if (input_day.toString().length < 2) {
-            input_day = "0" + input_day;
-        }
-        return input_day;
-    }
-    document.getElementById("yesterday").innerText = plus_zero(yesterday);
-    document.getElementById("tomorrow").innerText = plus_zero(tomorrow);
-
-
-
-</script>
+<script src="/static/js/coffee.js"></script>
 {%endblock script%}
