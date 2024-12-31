@@ -55,14 +55,14 @@ $(document).ready(function () {
 
     $('#add_customer_phone').on('input', function () {
         var input = $(this).val();
-        if (input !== '' && input.length == 10) {
+        if (input !== '' && input.length >= 8) {
             $.ajax({
                 url: '/api/customer?phone=' + input,
                 type: 'GET',
                 success: function (response) {
                     if (response.length == 1) {
                         console.log("【SYSTEM】 only one result:", response);
-                        $('#add_customer_name').val(response[0].name);
+                        // $('#add_customer_name').val(response[0].name);
                         alert('已經是會員');
                     }
                 }
@@ -82,7 +82,7 @@ $(document).ready(function () {
             alert('請輸入完整資料');
             console.log('【SYSTEM】 customerData:', customerData);
         }
-        else if (customerData.phone.length != 10) {
+        else if (customerData.phone.length < 8) {
             $('#phone_area').empty();
             $('#phone_area').append(`
                 <div class="form-floating mb-1 is-invalid">
