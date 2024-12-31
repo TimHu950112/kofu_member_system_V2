@@ -168,7 +168,7 @@ def linebot_push():
     try:
         user_id=coffee.find_one({'phone':request.args.get("phone")})['line_id']
         try:
-            message = FlexSendMessage(alt_text="這是 Flex Message", contents=json.loads(push_flex_message(request.args.get("function"),request.args.get("item"),request.args.get("number"))))
+            message = FlexSendMessage(alt_text="愛八路咖啡 消費明細", contents=json.loads(push_flex_message(request.args.get("function"),request.args.get("item"),request.args.get("number"))))
             line_bot_api.push_message(user_id, message)
             return 'success', 200
         except Exception as e:
