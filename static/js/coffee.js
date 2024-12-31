@@ -64,19 +64,18 @@ document.getElementById("function_select").addEventListener("change", function (
 });
 
 document.getElementById("submit_button").addEventListener("click", function () {
-    alert("Submit button clicked");
     var coffeeData = {
         phone: $('#add_coffee_phone').val(),
         function: $('#function_select').val(),
         item: $('#item_select').val(),
         number: $('#add_coffee_number').val()
     };
-    if (coffeeData.phone == '' || coffeeData.phone == undefined || coffeeData.phone.length <= 7 || coffeeData.function == '' || coffeeData.function == undefined || coffeeData.item == '' || coffeeData.item == undefined || coffeeData.number == '' || coffeeData.number == undefined) {
-        if (coffeeData.phone.length <= 7) {
-            alert('電話號碼格式錯誤');
-        }
+    if (coffeeData.phone == '' || coffeeData.phone == undefined || coffeeData.function == '' || coffeeData.function == undefined || coffeeData.item == '' || coffeeData.item == undefined || coffeeData.number == '' || coffeeData.number == undefined) {
         alert('請輸入完整資料');
         console.log('【SYSTEM】 coffeeData:', coffeeData);
+    }
+    else if (coffeeData.phone.length <= 7) {
+        alert('電話號碼格式錯誤');
     }
     else {
         $.ajax({
@@ -106,15 +105,9 @@ document.getElementById("submit_button").addEventListener("click", function () {
                         }
                         window.location.reload();
                     },
-                    error: function (error) {
-                        alert('發生問題，請再試一次');
-                    }
                 });
                 window.location.reload();
             },
-            error: function (error) {
-                alert('發生問題，請再試一次');
-            }
         });
     }
 });
