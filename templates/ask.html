@@ -41,8 +41,9 @@
                 <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel">加入會員</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div id="phone_area">
+            <div class="modal-body text-center">
+                <b class="m-2" id="customer_number">當前會員人數:</b>
+                <div class="mt-2" id="phone_area">
                     <div class="form-floating mb-3 ">
                         <input type="text" class="form-control shadow" id="add_customer_phone"
                             placeholder="name@example.com" style="border-radius: 1.2rem;">
@@ -60,13 +61,12 @@
                             class="mx-2"></ion-icon><span></span>
                         會員姓名</span></label>
                 </div>
-                <div class="form-check ms-2">
+                <div class="form-check ms-2 text-start">
                     <input class="form-check-input" type="checkbox" id="permanent_status">
                     <label class="form-check-label fw-bold" style="font-size: 13px;" for="flexCheckDefault">
                         永久會員
                     </label>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>

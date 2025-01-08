@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     $('#add_customer_phone').on('input', function () {
         var input = $(this).val();
-        if (input.length == 10 || input.length == 8 ) {
+        if (input.length == 10 || input.length == 8) {
             $.ajax({
                 url: '/api/customer?phone=' + input,
                 type: 'GET',
@@ -82,7 +82,7 @@ $(document).ready(function () {
             alert('請輸入完整資料');
             console.log('【SYSTEM】 customerData:', customerData);
         }
-        else if (customerData.phone.length != 8 && customerData.phone.length != 10 ) {
+        else if (customerData.phone.length != 8 && customerData.phone.length != 10) {
             $('#phone_area').empty();
             $('#phone_area').append(`
                 <div class="form-floating mb-1 is-invalid">
@@ -121,4 +121,20 @@ $(document).ready(function () {
             });
         }
     });
+});
+
+$.ajax({
+    url: '/api/customer?phone=',
+    type: 'GET',
+    success: function (response) {
+        if (response.length > 0) {
+            $('#customer_number').html("當前會員人數： " + response.length + " 人");
+        } else {
+            $('#customer_number').html('無會員');
+        }
+    },
+    error: function (error) {
+        console.log('【SYSTEM】 error:', error);
+        $('#customer_number').html('連線錯誤');
+    }
 });

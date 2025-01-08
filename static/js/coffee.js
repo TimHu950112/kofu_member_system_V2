@@ -140,3 +140,8 @@ $('#add_coffee_phone').on('input', function () {
         }
     });
 });
+
+$('#predict_area').on('click', '.alert-success', function () {
+    var phone = $(this).html().split('<br>')[0].replace(/\s+/g, '');
+    $('#add_coffee_phone').val(phone).trigger('input');
+});
