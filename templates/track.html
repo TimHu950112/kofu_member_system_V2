@@ -1,11 +1,12 @@
 {%extends 'base.html'%}
 {%block title%}寄杯{%endblock%}
 {%block content%}
-<section class="section fw-bold pt-3 px-lg-5 px-4  mx-0 overflow-y-scroll" id="track" style="max-height: 100vh;">
+<section class="section fw-bold pt-3 pb-5 mb-5 px-lg-5 px-4  mx-0 overflow-y-scroll" id="track"
+    style="max-height: 75vh;">
     <div class="d-flex justify-content-between">
         <h2 class="m-3 fw-bolder">寄杯</h2>
-        <!-- <ion-icon class="mt-2" name="add-outline" style="font-size:35px" data-bs-target="#exampleModalToggle"
-            data-bs-toggle="modal"></ion-icon> -->
+        <ion-icon class="mt-2" name="albums-outline" style="font-size:35px" data-bs-target="#exampleModalToggle"
+            data-bs-toggle="modal"></ion-icon>
     </div>
     <select id="function_select" class="form-select shadow mb-3 fw-bold text-center"
         style="border-radius: 1.2rem;min-height:58px;font-size: 13px;" aria-label="Default select example">
@@ -125,6 +126,23 @@
     </div> -->
 
 </section>
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel">操作紀錄</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center overflow-y-scroll" style="max-height: 75vh;" id="coffee_log">
+                <h5>一週內尚無紀錄</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
 {%endblock content%}
 {%block script%}
 <script src="/static/js/coffee.js"></script>

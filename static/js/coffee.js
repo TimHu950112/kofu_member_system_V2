@@ -78,6 +78,7 @@ document.getElementById("submit_button").addEventListener("click", function () {
         alert('電話號碼格式錯誤');
     }
     else {
+        document.getElementById("submit_button").disabled = true;
         $.ajax({
             url: '/api/coffee',
             type: 'POST',
@@ -144,4 +145,37 @@ $('#add_coffee_phone').on('input', function () {
 $('#predict_area').on('click', '.alert-success', function () {
     var phone = $(this).html().split('<br>')[0].replace(/\s+/g, '');
     $('#add_coffee_phone').val(phone).trigger('input');
+});
+
+$.ajax({
+    url: '/api/coffee_log',
+    type: 'GET',
+    contentType: 'application/json',
+    success: function (response) {
+        console.log('【SYSTEM】 coffee_log:', response);
+        let logHtml = '';
+        response.forEach(log => {
+            if (log.function == "add_coffee") {
+                log.function = "寄";
+            }
+            else if (log.function == "take_away") {
+                log.function = "取";
+            }
+            logHtml += `
+                <div class="shadow pt-2 p-2 mt-2 mb-4 mx-3 d-flex justify-content-between align-items-center position-relative z-0"
+                    style="border-radius: 1.2rem;">
+                    <div class="m-0 text-start" style="font-size: 10px; color:rgba(76, 76, 76, 0.502);font-weight: 700;">
+                        <p class=" ms-2 mt-0 mb-0" style="font-size: 15px; color:black;">${log.phone}</p>
+                        <p class=" ms-2 mt-0 mb-0" style="font-size: 12px;">時間：${log.date} ${log.time}<br>紀錄：${log.function} ${log.item}元品項 ${log.number}杯</p>
+                    </div>
+                    <ion-icon name="person-circle-outline" class="img img-fluid me-1 z-1 text-dark" alt=""
+                        style="border-radius:0.7rem;width:90px;height:90px"></ion-icon>
+                </div>
+            `;
+        });
+        document.getElementById('coffee_log').innerHTML = logHtml;
+    },
+    error: function (error) {
+        console.log('【SYSTEM】 Error fetching coffee log:', error);
+    }
 });

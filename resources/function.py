@@ -1,7 +1,7 @@
 from flask import request, session, render_template, make_response, redirect, flash
 from flask_restful import Resource
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 def login_required(f):
@@ -94,3 +94,34 @@ class CoffeeResource(Resource):
 #         }
 #     ]
 # }
+
+class CoffeeLogResource(Resource):
+    def __init__(self, **kwargs):
+        self.coffee_log = kwargs['coffee_log']
+
+    def get(self):
+            # 當前時間（台北時區）
+            tz = pytz.timezone("Asia/Taipei")
+            now_tz = datetime.now(tz)
+            one_week_ago_tz = now_tz - timedelta(days=7)
+
+            # 轉換為 UTC 時間
+            now_utc = now_tz.astimezone(pytz.utc)
+            one_week_ago_utc = one_week_ago_tz.astimezone(pytz.utc)
+
+            # 查詢 log_time 在範圍內的紀錄
+            logs = self.coffee_log.find({
+                'log_time': {
+                    '$gte': one_week_ago_utc,
+                    '$lt': now_utc
+                }
+            })
+
+            # 將查詢結果轉為列表並處理 ObjectId
+            result = []
+            for log in logs:
+                log['_id'] = str(log['_id'])  # 將 ObjectId 轉換為字串
+                log['log_time'] = str(log['log_time'])  # 將時間轉換為字串
+                result.append(log)
+                result.reverse()
+            return result, 200

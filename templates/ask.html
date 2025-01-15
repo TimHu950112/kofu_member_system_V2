@@ -7,13 +7,16 @@
         <ion-icon class="mt-2" name="add-outline" style="font-size:35px" data-bs-target="#exampleModalToggle"
             data-bs-toggle="modal"></ion-icon>
     </div>
-    <div class="form-floating mb-3 ">
-        <input type="text" class="form-control shadow" id="customer_input" placeholder="name@example.com"
-            style="border-radius: 1.2rem;">
-        <label for=" floatingInput" class="d-inline-flex justify-content-center align-items-center"
-            style="font-size: 12px;"><ion-icon name="search-outline" style="font-size: 20px;"
-                class="mx-2"></ion-icon><span></span>
-            搜尋會員</span></label>
+    <div class="d-flex justify-content-between justify-content-center align-items-center">
+        <div class="form-floating mb-3 " style="width: 100%;">
+            <input type="text" class="form-control shadow" id="customer_input" placeholder="name@example.com"
+                style="border-radius: 1.2rem;">
+            <label for=" floatingInput" class="d-inline-flex justify-content-center align-items-center"
+                style="font-size: 12px;"><ion-icon name="search-outline" style="font-size: 20px;"
+                    class="mx-2"></ion-icon><span></span>
+                搜尋會員</span></label>
+        </div>
+        <ion-icon name="backspace-outline" id="clear_button" class="ms-1 mb-3" style="font-size: 30px;"></ion-icon>
     </div>
     <div class="p-1">
         <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">

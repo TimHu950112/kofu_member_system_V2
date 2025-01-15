@@ -52,6 +52,25 @@ $(document).ready(function () {
 
         }
     });
+    var typingTimer;
+    var doneTypingInterval = 5000;
+
+    $('#customer_input').on('input', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(function () {
+            $('#customer_input').val('');
+            $('#customer_result').empty();
+        }, doneTypingInterval);
+    });
+
+    $('#customer_input').on('keydown', function () {
+        clearTimeout(typingTimer);
+    });
+
+    $('#clear_button').on('click', function () {
+        $('#customer_input').val('');
+        $('#customer_result').empty();
+    });
 
     $('#add_customer_phone').on('input', function () {
         var input = $(this).val();

@@ -25,6 +25,7 @@ db = client.order_system_v2
 users = db["users"]
 customer = db["customer"]
 coffee = db["coffee"]
+coffee_log = db["coffee_log"]
 print("\x1b[6;30;42m" + "資料庫連線成功".center(87) + "\x1b[0m")
 
 app = Flask(__name__)
@@ -121,6 +122,7 @@ api.add_resource(LogoutResource, "/logout")
 api.add_resource(RegisterResource, "/register", resource_class_kwargs={"users": users})
 api.add_resource(CustomerResource, "/api/customer", resource_class_kwargs={"customer": customer})
 api.add_resource(CoffeeResource, "/api/coffee", resource_class_kwargs={"coffee": coffee})
+api.add_resource(CoffeeLogResource, "/api/coffee_log", resource_class_kwargs={"coffee_log": coffee_log})
 
 
 @app.before_request
@@ -165,6 +167,7 @@ def linebot_callback():
 
 @app.route("/linebot-push", methods=['GET'])
 def linebot_push():
+    coffee_log.insert_one({'phone':request.args.get("phone"),'function':request.args.get("function"),'item':request.args.get("item"),'number':request.args.get("number"),'date':datetime.now(pytz.timezone("Asia/Taipei")).strftime("%Y-%m-%d"),'time':datetime.now(pytz.timezone("Asia/Taipei")).strftime("%H:%M:%S"),'log_time':datetime.now(pytz.timezone("Asia/Taipei"))})
     try:
         user_id=coffee.find_one({'phone':request.args.get("phone")})['line_id']
         try:
