@@ -86,6 +86,7 @@ document.getElementById("submit_button").addEventListener("click", function () {
             contentType: 'application/json',
             success: function (response) {
                 console.log('【SYSTEM】 ' + response.message);
+                alert($('#function_select').val()+'成功');
             },
         });
         $.ajax({
@@ -152,6 +153,12 @@ $.ajax({
     type: 'GET',
     contentType: 'application/json',
     success: function (response) {
+        // 將資料依日期與時間由新到舊排序
+        response.sort((a, b) => {
+            const dateA = new Date(`${a.date} ${a.time}`);
+            const dateB = new Date(`${b.date} ${b.time}`);
+            return dateB - dateA;
+        });
         console.log('【SYSTEM】 coffee_log:', response);
         let logHtml = '';
         response.forEach(log => {
