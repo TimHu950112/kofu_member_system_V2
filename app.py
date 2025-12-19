@@ -13,6 +13,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,FlexSendMessage
 import google.auth.transport.requests
 import os,certifi,pymongo
+from functools import wraps
 
 load_dotenv()
 
@@ -63,6 +64,7 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 # 登入檢查裝飾器
 def login_required(func):
+    @wraps(func)
     def wrapper(*args, **kwargs):
         if "username" in session:
             return func(*args, **kwargs)
@@ -148,6 +150,7 @@ def page(template):
     return render_template("home.html")
 
 @app.route("/page/self-check")
+@login_required
 def self_check():
     return render_template("self_check.html")
 

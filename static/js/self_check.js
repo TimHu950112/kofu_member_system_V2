@@ -142,6 +142,11 @@ function showResult(message, type) {
     // 添加動畫效果
     resultDiv.classList.add('animate-pulse');
     setTimeout(() => resultDiv.classList.remove('animate-pulse'), 500);
+
+    // 3秒後自動消失
+    setTimeout(() => {
+        resultDiv.style.display = 'none';
+    }, 3000);
 }
 
 // 播放音效
@@ -160,7 +165,7 @@ function playClickSound() {
     }
 }
 
-// 語音朗讀
+// 語音朗讀（在音效播放完後執行）
 function speak(text) {
     // 檢查瀏覽器是否支援語音合成
     if ('speechSynthesis' in window) {
@@ -173,7 +178,10 @@ function speak(text) {
         utterance.pitch = 1; // 音調
         utterance.volume = 1; // 音量
 
-        window.speechSynthesis.speak(utterance);
+        // 延遲執行語音，確保音效先播放完畢
+        setTimeout(() => {
+            window.speechSynthesis.speak(utterance);
+        }, 300);
     } else {
         console.log('瀏覽器不支援語音合成');
     }
