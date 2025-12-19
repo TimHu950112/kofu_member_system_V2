@@ -16,7 +16,7 @@ def login_required(f):
 class CustomerResource(Resource):
     def __init__(self, **kwargs):
         self.customer = kwargs['customer']
-    
+
     @login_required
     def get(self):
         data = request.args.get('phone')
@@ -94,6 +94,27 @@ class CoffeeResource(Resource):
 #         }
 #     ]
 # }
+
+class CustomerSelfCheckResource(Resource):
+    def __init__(self, **kwargs):
+        self.customer = kwargs['customer']
+
+    def get(self):
+        phone = request.args.get('phone')
+        if not phone:
+            return {'customers': []}, 200
+
+        result = []
+        # 使用精確匹配而非模糊搜尋
+        customer = self.customer.find_one({'phone': phone})
+        if customer:
+            result.append({
+                'phone': customer['phone'],
+                'name': customer['name'],
+                'permanent_status': customer['permanent_status'],
+                'active_year': customer['active_year']
+            })
+        return {'customers': result}, 200
 
 class CoffeeLogResource(Resource):
     def __init__(self, **kwargs):

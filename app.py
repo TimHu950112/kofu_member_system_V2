@@ -121,6 +121,7 @@ api.add_resource(LoginResource, "/login", resource_class_kwargs={"users": users}
 api.add_resource(LogoutResource, "/logout")
 api.add_resource(RegisterResource, "/register", resource_class_kwargs={"users": users})
 api.add_resource(CustomerResource, "/api/customer", resource_class_kwargs={"customer": customer})
+api.add_resource(CustomerSelfCheckResource, "/api/customer-check", resource_class_kwargs={"customer": customer})
 api.add_resource(CoffeeResource, "/api/coffee", resource_class_kwargs={"coffee": coffee})
 api.add_resource(CoffeeLogResource, "/api/coffee_log", resource_class_kwargs={"coffee_log": coffee_log})
 
@@ -145,6 +146,10 @@ def page(template):
         except:
             return render_template("error.html")
     return render_template("home.html")
+
+@app.route("/page/self-check")
+def self_check():
+    return render_template("self_check.html")
 
 @app.route('/qrcodes/<filename>')
 def serve_qrcode(filename):
