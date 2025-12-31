@@ -76,13 +76,22 @@ $(document).ready(function () {
         var input = $(this).val();
         if (input.length == 10 || input.length == 8) {
             $.ajax({
-                url: '/api/customer?phone=' + input,
+                url: '/api/customer-check?phone=' + input,
                 type: 'GET',
                 success: function (response) {
-                    if (response.length == 1) {
-                        console.log("【SYSTEM】 only one result:", response);
-                        // $('#add_customer_name').val(response[0].name);
-                        alert('已經是會員');
+                    if (response.customers && response.customers.length > 0) {
+                        console.log("【SYSTEM】 API response:", response);
+                        const customer = response.customers[0];
+                        // 檢查是否有效會員（今年有效或永久會員）
+                        const currentYear = new Date().getFullYear();
+
+                        if (customer.permanent_status === true || customer.active_year === currentYear) {
+                            // 已經是有效會員
+                            alert('已經是會員');
+                        } else {
+                            // 有這個號碼但已失效，自動帶入姓名
+                            $('#add_customer_name').val(customer.name);
+                        }
                     }
                 }
             });
@@ -132,6 +141,10 @@ $(document).ready(function () {
                     else if (response.message == 'added') {
                         alert('加入成功');
                     }
+                    // 清空表單欄位
+                    $('#add_customer_name').val('');
+                    $('#add_customer_phone').val('');
+                    $('#permanent_status').prop('checked', false);
                     window.location.reload();
                 },
                 error: function (error) {
@@ -147,7 +160,13 @@ $.ajax({
     type: 'GET',
     success: function (response) {
         if (response.length > 0) {
-            $('#customer_number').html("當前會員人數： " + response.length + " 人");
+            // 過濾出有效會員（今年生效或永久會員）
+            const currentYear = new Date().getFullYear();
+            const validMembers = response.filter(customer =>
+                customer.permanent_status === true ||
+                parseInt(customer.active_year) === currentYear
+            );
+            $('#customer_number').html("當前會員人數： " + validMembers.length + " 人");
         } else {
             $('#customer_number').html('無會員');
         }
